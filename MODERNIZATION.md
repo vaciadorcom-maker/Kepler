@@ -39,3 +39,15 @@ Este repositorio **no** incluye un reemplazo para Shockwave. Los pasos anteriore
 #### Stub incluido
 - `public/modern/index.html` es un punto de partida sin dependencias de plugins. Lee parámetros vía query string (`sso`, `ws`, `variables`, `texts`) y muestra la configuración que deberá consumir el futuro cliente HTML5/WebAssembly.
 - Sustituye la lógica de ejemplo por tu implementación de red (WebSocket) y renderizado (Canvas/WebGL).
+
+### Checklist mínima para avanzar
+- [ ] Implementar proxy WebSocket ↔️ TCP hacia Kepler (por ejemplo, Node/Express + `ws`).
+- [ ] Consumir `external_variables.txt` para rellenar endpoints y banderas de cliente.
+- [ ] Consumir `external_texts.txt` para localizar la UI.
+- [ ] Implementar handshake y mensajes del protocolo SULake/Habbo.
+- [ ] Render básico de habitaciones/avatares (Canvas/WebGL) que reutilice `figuredata`/`furnidata`.
+- [ ] Autenticación usando ticket SSO (`use.sso.ticket`).
+
+#### Progreso incluido en el stub
+- `public/modern/index.html` + `app.js`: lee parámetros `sso`, `ws`, `variables`, `texts`, descarga `external_variables.txt` y `external_texts.txt`, y muestra un resumen de los valores clave (host/puerto).
+- Botón “Probar conexión” para abrir un WebSocket con el endpoint configurado (con fines de conectividad básica; no implementa aún el protocolo del cliente).

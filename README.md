@@ -103,3 +103,4 @@ Consulta `MODERNIZATION.md` para ver un esquema de migración hacia un cliente w
 ### Stub web moderno incluido
 - `public/modern/index.html` es un punto de partida sin Shockwave que acepta parámetros por query string (`sso`, `ws`, `variables`, `texts`) y muestra la configuración que debe consumir un cliente HTML5/WebAssembly.
 - Sustituye la lógica de ejemplo con tu implementación real de red (WebSocket → proxy → Kepler) y renderizado (Canvas/WebGL).
+- Para probarlo, sirve el repo (p. ej. `php -S 0.0.0.0:8000 -t .`) y accede a `/public/modern/?sso=TU_TICKET&ws=wss://tu-dominio/ws&variables=/gamedata/external_variables.txt&texts=/gamedata/external_texts.txt`.
