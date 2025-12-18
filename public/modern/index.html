@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kepler Web (moderno, sin plugins)</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 1.5rem;
+      background: #0b0c0f;
+      color: #e6e8ec;
+    }
+    a { color: #7fb4ff; }
+    h1, h2 { margin: 0 0 0.5rem 0; }
+    .card {
+      background: #151821;
+      border: 1px solid #242a3b;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+    code, pre {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    pre {
+      background: #0f1118;
+      padding: 0.75rem;
+      border-radius: 8px;
+      overflow: auto;
+      border: 1px solid #1f2533;
+    }
+    label { display: block; margin: 0.35rem 0 0.15rem; }
+    input {
+      width: 100%;
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #242a3b;
+      background: #0f1118;
+      color: #e6e8ec;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+    }
+    .chip {
+      background: #1f2533;
+      border: 1px solid #2e3a56;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kepler Web (moderno, sin plugins)</h1>
+  <p>Este stub reemplaza al loader Shockwave. Aquí debe montarse el cliente HTML5/WebAssembly que hable el protocolo de Kepler.</p>
+
+  <div class="card">
+    <h2>Estado</h2>
+    <p>Cliente moderno todavía <strong>pendiente de implementar</strong>. Usa esta página para probar configuración y bootstrap.</p>
+    <div id="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>Parámetros soportados (query string)</h2>
+    <div class="chips">
+      <span class="chip"><code>sso</code> (ticket SSO)</span>
+      <span class="chip"><code>ws</code> (URL WebSocket, ej: <code>wss://tu-dominio/ws</code>)</span>
+      <span class="chip"><code>variables</code> (URL de <code>external_variables.txt</code>)</span>
+      <span class="chip"><code>texts</code> (URL de <code>external_texts.txt</code>)</span>
+    </div>
+    <p>Ejemplo: <code>?sso=ABC-123&ws=wss://ejemplo/ws&variables=/gamedata/external_variables.txt&texts=/gamedata/external_texts.txt</code></p>
+  </div>
+
+  <div class="card">
+    <h2>Bootstrap del cliente (borrador)</h2>
+    <pre id="configPreview"></pre>
+  </div>
+
+  <div class="card">
+    <h2>Siguiente paso sugerido</h2>
+    <ol>
+      <li>Implementar un cliente JS/TS que use <code>WebSocket</code> para conectarse a un proxy que hable con Kepler.</li>
+      <li>Consumir las URLs de <code>external_variables.txt</code> y <code>external_texts.txt</code> para configurar el cliente.</li>
+      <li>Usar el ticket <code>sso</code> para autenticación (<code>use.sso.ticket</code>).</li>
+      <li>Montar el renderer (Canvas/WebGL) y UI aquí mismo.</li>
+    </ol>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const config = {
+      sso: params.get('sso') || '(pendiente)',
+      websocket: params.get('ws') || '(definir, ej: wss://tu-dominio/ws)',
+      externalVariables: params.get('variables') || '/gamedata/external_variables.txt',
+      externalTexts: params.get('texts') || '/gamedata/external_texts.txt',
+    };
+
+    const configEl = document.getElementById('configPreview');
+    configEl.textContent = JSON.stringify(config, null, 2);
+
+    const statusEl = document.getElementById('status');
+    const missing = Object.entries(config).filter(([_, v]) => v.startsWith('('));
+    if (missing.length === 0) {
+      statusEl.innerHTML = '<p>Configuración mínima lista. Implementa la conexión WebSocket y el renderizado aquí.</p>';
+    } else {
+      statusEl.innerHTML = '<p>Faltan parámetros clave: ' + missing.map(([k]) => k).join(', ') + '.</p>';
+    }
+  </script>
+</body>
+</html>
