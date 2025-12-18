@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kepler Web (moderno, sin plugins)</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <h1>Kepler Web (moderno, sin plugins)</h1>
+  <p>Este stub reemplaza al loader Shockwave. Aquí debe montarse el cliente HTML5/WebAssembly que hable el protocolo de Kepler.</p>
+
+  <div class="card">
+    <h2>Estado</h2>
+    <p>Cliente moderno todavía <strong>pendiente de implementar</strong>. Usa esta página para probar configuración y bootstrap.</p>
+    <div id="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>Parámetros soportados (query string)</h2>
+    <div class="chips">
+      <span class="chip"><code>sso</code> (ticket SSO)</span>
+      <span class="chip"><code>ws</code> (URL WebSocket, ej: <code>wss://tu-dominio/ws</code>)</span>
+      <span class="chip"><code>variables</code> (URL de <code>external_variables.txt</code>)</span>
+      <span class="chip"><code>texts</code> (URL de <code>external_texts.txt</code>)</span>
+    </div>
+    <p>Ejemplo: <code>?sso=ABC-123&ws=wss://ejemplo/ws&variables=/gamedata/external_variables.txt&texts=/gamedata/external_texts.txt</code></p>
+  </div>
+
+  <div class="card">
+    <h2>Bootstrap del cliente (borrador)</h2>
+    <pre id="configPreview"></pre>
+  </div>
+
+  <div class="card">
+    <h2>Gamedata</h2>
+    <div id="gamedataStatus">Cargando…</div>
+    <pre id="gamedataPreview"></pre>
+  </div>
+
+  <div class="card">
+    <h2>Siguiente paso sugerido</h2>
+    <ol>
+      <li>Implementar un cliente JS/TS que use <code>WebSocket</code> para conectarse a un proxy que hable con Kepler.</li>
+      <li>Consumir las URLs de <code>external_variables.txt</code> y <code>external_texts.txt</code> para configurar el cliente.</li>
+      <li>Usar el ticket <code>sso</code> para autenticación (<code>use.sso.ticket</code>).</li>
+      <li>Montar el renderer (Canvas/WebGL) y UI aquí mismo.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Conexión WebSocket (prueba básica)</h2>
+    <p>Este botón abre un WebSocket al endpoint indicado para verificar conectividad. No implementa aún el protocolo del cliente.</p>
+    <button id="connectBtn">Probar conexión</button>
+    <pre id="wsLog"></pre>
+  </div>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>

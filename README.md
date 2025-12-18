@@ -1,27 +1,27 @@
 ## Kepler-www
-This repository contains the frontend web assets (gamedata) for [Kepler](https://github.com/Quackster/Kepler/), private Habbo Hotel server software.
+Este repositorio contiene los recursos web (gamedata) para [Kepler](https://github.com/Quackster/Kepler/), el software de servidor privado de Habbo Hotel.
 
-These files are intended to be served to clients connecting to a Kepler server.
+Estos archivos están pensados para ser servidos a los clientes que se conectan a un servidor Kepler.
 
-## Purpose
-Kepler-www provides:
+## Propósito
+Kepler-www proporciona:
 
 * Furnidata
 * Figure data
-* Furniture files
-* Client files
+* Archivos de furniture
+* Archivos del cliente
 
-This repository mirrors the behavior of the traditional gamedata or web build hosting used by Habbo Hotel, and is essential for running a fully functional Kepler server environment.
+Este repositorio replica el comportamiento del hosting tradicional de gamedata o web build que usaba Habbo Hotel, y es esencial para ejecutar un entorno de servidor Kepler completamente funcional.
 
-## Download
+## Descarga
 
-You can download the latest gamedata package from the [Releases](https://github.com/Quackster/Kepler-www/releases) page.
+Puedes descargar el paquete de gamedata más reciente en la página de [Releases](https://github.com/Quackster/Kepler-www/releases).
 
-Each release contains a .zip archive of the current version, ready to be hosted on your own web server.
+Cada release incluye un archivo .zip de la versión actual, listo para ser alojado en tu propio servidor web.
 
-## Loader HTML
+## HTML del loader
 
-Here's the HTML for the Kepler loader.
+Aquí tienes el HTML del loader de Kepler (tal como funcionaba con Shockwave):
 
 ```php
 <?php
@@ -83,9 +83,25 @@ if (isset($_GET['sso'])) {
 </html>
 ```
 
-## Contributing
+## Contribuir
 
-This repository is mostly static and updated to match the expected format for Kepler. Pull requests to fix or update gamedata files (e.g. from newer releases or to improve compatibility) are welcome.
+Este repositorio es mayormente estático y se mantiene para cumplir con el formato esperado por Kepler. Se aceptan pull requests para corregir o actualizar archivos de gamedata (por ejemplo, versiones más nuevas o mejoras de compatibilidad).
 
-## License
-This project is provided for educational and development purposes. Refer to the main Kepler repository for overall licensing and contribution guidelines.
+## Licencia
+Este proyecto se ofrece con fines educativos y de desarrollo. Revisa el repositorio principal de Kepler para conocer las licencias y lineamientos de contribución.
+
+## Consideraciones para navegadores modernos
+
+El loader incluido depende de un cliente Shockwave (`.dcr`) y del soporte NPAPI/ActiveX, que los navegadores modernos ya no ofrecen. Para usar el cliente legado sin instalar Shockwave en tu navegador principal:
+
+1. Ejecuta un navegador antiguo en un entorno aislado (máquina virtual o contenedor) y sirve este repositorio (por ejemplo, con `php -S 0.0.0.0:8000 -t .`). Accede al loader desde el navegador legacy.
+2. Ajusta los parámetros del loader apuntando a tu backend de Kepler (consulta las claves `connection.info.*` y `external.*` en el HTML de ejemplo).
+3. Si necesitas una experiencia sin plugins en navegadores modernos, tendrás que integrar un cliente alternativo (HTML5/WebAssembly) que hable el protocolo de Kepler, ya que este repositorio no incluye un reemplazo para Shockwave.
+
+Consulta `MODERNIZATION.md` para ver un esquema de migración hacia un cliente web moderno y sin plugins.
+
+### Stub web moderno incluido
+- `public/modern/index.html` es un punto de partida sin Shockwave que acepta parámetros por query string (`sso`, `ws`, `variables`, `texts`) y muestra la configuración que debe consumir un cliente HTML5/WebAssembly.
+- Sustituye la lógica de ejemplo con tu implementación real de red (WebSocket → proxy → Kepler) y renderizado (Canvas/WebGL).
+- Para probarlo, sirve el repo (p. ej. `php -S 0.0.0.0:8000 -t .`) y accede a `/public/modern/?sso=TU_TICKET&ws=wss://tu-dominio/ws&variables=/gamedata/external_variables.txt&texts=/gamedata/external_texts.txt`.
+- **No abras el HTML con file://**: usa un servidor local (PHP/Node/Python) para evitar bloqueos de CORS y de módulos ES.
