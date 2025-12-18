@@ -15,6 +15,13 @@ const gamedataPreviewEl = document.getElementById("gamedataPreview");
 const wsLogEl = document.getElementById("wsLog");
 const connectBtn = document.getElementById("connectBtn");
 
+// Aviso temprano cuando se abre el HTML directamente con file://
+if (location.protocol === "file:") {
+  const warning =
+    "Abre este stub desde http(s) (ej. `php -S 0.0.0.0:8000 -t .` o `python -m http.server`) para evitar bloqueos CORS/ESM.";
+  statusEl.innerHTML = `<p style="color:#ff9f0a">${warning}</p>`;
+}
+
 configEl.textContent = JSON.stringify(config, null, 2);
 
 const missing = Object.entries(config).filter(([_, v]) => v.startsWith("("));

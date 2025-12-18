@@ -51,3 +51,4 @@ Este repositorio **no** incluye un reemplazo para Shockwave. Los pasos anteriore
 #### Progreso incluido en el stub
 - `public/modern/index.html` + `app.js`: lee parámetros `sso`, `ws`, `variables`, `texts`, descarga `external_variables.txt` y `external_texts.txt`, y muestra un resumen de los valores clave (host/puerto).
 - Botón “Probar conexión” para abrir un WebSocket con el endpoint configurado (con fines de conectividad básica; no implementa aún el protocolo del cliente).
+- Recuerda servirlo por HTTP/HTTPS (no `file://`) para evitar CORS y restricciones de módulos ES.
